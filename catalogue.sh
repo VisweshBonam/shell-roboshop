@@ -36,14 +36,24 @@ VALIDATE(){
     fi
 }
 
-dnf module disable nodejs -y &>>$LOG_FILE
-VALIDATE $? "Disabling default nodejs"
+dnf list installed | grep nginx 
 
-dnf module enable nodejs:20 -y &>>$LOG_FILE
-VALIDATE $? "Enabling nodejs:20"
+if [ $? -ne 0 ]
+then
+    dnf module disable nodejs -y &>>$LOG_FILE
+    VALIDATE $? "Disabling default nodejs"
 
-dnf install nodejs -y &>>$LOG_FILE
-VALIDATE $? "Installing nodejs:20"
+    dnf module enable nodejs:20 -y &>>$LOG_FILE
+    VALIDATE $? "Enabling nodejs:20"
+
+    dnf install nodejs -y &>>$LOG_FILE
+    VALIDATE $? "Installing nodejs:20"  
+else
+     echo -e "nodejs is ... $G Already Installed $N" | tee -a $LOG_FILE
+
+fi
+
+
 
 id roboshop
 if [ $? -ne 0 ]
