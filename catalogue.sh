@@ -36,7 +36,7 @@ VALIDATE(){
     fi
 }
 
-dnf list installed | grep nginx 
+dnf list installed | grep nodejs 
 
 if [ $? -ne 0 ]
 then
