@@ -26,7 +26,7 @@ else
     echo "You are running with root access" | tee -a $LOG_FILE
 fi
 
-validate() {
+VALIDATE() {
     if [ $1 -eq 0 ]; then
         echo -e "$2 is ... $G SUCCESS $N" | tee -a $LOG_FILE
     else
