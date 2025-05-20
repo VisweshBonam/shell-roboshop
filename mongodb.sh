@@ -38,7 +38,7 @@ validate(){
 }
 
 #moving mongo repo content to /etc/
-cp mongo.repo /etc/yum.repos.d/mongodb.repo
+cp mongodb.repo /etc/yum.repos.d/mongo.repo
 VALIDATE $? "Copying MongoDB repo"
 
 #install mongodb server
