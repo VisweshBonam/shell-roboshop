@@ -18,14 +18,14 @@ INSTANCE_ID=$(aws ec2 run-instances --image-id ami-09c813fb71547fc4f --instance-
     echo "$instance IP address: $IP"
 
     aws route53 change-resource-record-sets \
-    --hosted-zone-id $ZONE_ID \
+    --hosted-zone-id $Zone_ID \
     --change-batch '
     {
         "Comment": "Creating or Updating a record set for cognito endpoint"
         ,"Changes": [{
         "Action"              : "UPSERT"
         ,"ResourceRecordSet"  : {
-            "Name"              : "'$instance'.'$DOMAIN_NAME'"
+            "Name"              : "'$instance'.'$Domain_Name'"
             ,"Type"             : "A"
             ,"TTL"              : 1
             ,"ResourceRecords"  : [{
