@@ -43,10 +43,10 @@ systemctl enable mongod &>>$LOG_FILE
 VALIDATE $? "Enabling Mongodb"
 
 systemctl start mongod
-VALIDATE $? "Starting Mongodb" | tee -a $LOG_FILE
+VALIDATE $? "Starting Mongodb" 
 
 sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.repo
-VALIDATE $? "Modifying IP" | tee -a $LOG_FILE
+VALIDATE $? "Modifying IP" 
 
 systemctl restart mongod
-VALIDATE $? "Restarting mongod" | tee -a $LOG_FILE
+VALIDATE $? "Restarting mongod"
