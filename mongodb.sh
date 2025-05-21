@@ -18,10 +18,10 @@ mkdir -p $LOG_FOLDER
 echo "Script executing started at : $(date)"
 
 if [ $UserId -ne 0 ]; then
-    echo -e "$R ERROR $0 :: Please run the commands with root access" | tee -a $LOG_FILE
+    echo -e "$R ERROR $N :: Please run the commands with root access" | tee -a $LOG_FILE
     exit 1
 else
-    echo -e "$G SUCCESS $0 :: You are the root user"
+    echo -e "$G SUCCESS $N :: You are the root user"
 fi
 
 VALIDATE() {
