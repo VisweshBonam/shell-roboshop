@@ -24,7 +24,7 @@ then
      echo -e "$R ERROR $N :: Please access with root user" | tee -a $LOG_FILE
      exit 1
 else
-     echo -e "$G You are a root user $0" | tee -a $LOG_FILE
+     echo -e "$G You are a root user $N" | tee -a $LOG_FILE
 fi
 
 VALIDATE(){
