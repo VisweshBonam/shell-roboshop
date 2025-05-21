@@ -17,7 +17,7 @@ SCRIPT_DIR="$PWD"
 
 mkdir -p $LOG_FOLDER
 
-echo "Script executing started at : $Y $(date) $N"
+echo -e "Script executing started at : $Y $(date) $N"
 
 if [ $UserId -ne 0 ]
 then
