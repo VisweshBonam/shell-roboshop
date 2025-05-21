@@ -1,5 +1,7 @@
 #!/bin/bash
 
+START_TIME=$(date +%s)
+
 UserId=$(id -u)
 
 LOG_FOLDER="/var/log/roboshop-logs"
@@ -50,3 +52,9 @@ VALIDATE $? "Modifying IP"
 
 systemctl restart mongod
 VALIDATE $? "Restarting mongod"
+
+END_TIME=$(date +%s)
+
+TOTAL_TIME=$(($END_TIME - $START_TIME))
+
+echo -e "Script exection completed successfully, $Y time taken: $TOTAL_TIME seconds $N" | tee -a $LOG_FILE
