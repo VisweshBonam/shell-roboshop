@@ -68,7 +68,7 @@ VALIDATE $? "Removing content in nginx conf"
 cp $SCRIPT_DIR/nginx.conf /etc/nginx/nginx.conf &>>$LOG_FILE
 VALIDATE $? "Copying nginx.conf"
 
-systemctl restart nginx &&$LOG_FILE
+systemctl restart nginx &>>$LOG_FILE
 VALIDATE $? "Restarting nginx"
 
 
