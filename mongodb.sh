@@ -26,9 +26,9 @@ fi
 
 VALIDATE() {
     if [ $1 -eq 0 ]; then
-        echo -e "$2....$G IS SUCCESS ...$0" | tee -a $LOG_FILE
+        echo -e "$2 is ....$G  SUCCESS ...$N" | tee -a $LOG_FILE
     else
-        echo -e "$2.... $R IS FAILURE...$0" | tee -a $LOG_FILE
+        echo -e "$2 is.... $R  FAILURE...$N" | tee -a $LOG_FILE
     fi
 }
 
@@ -38,10 +38,10 @@ VALIDATE $? "Copying Mongodb"
 dnf install mongodb-org -y &>>$LOG_FILE
 VALIDATE $1 "Mongodb Installing"
 
-dnf systemctl enable mongod &>>$LOG_FILE
+systemctl enable mongod &>>$LOG_FILE
 VALIDATE $? "Enabling Mongodb"
 
-dnf systemctl start mongod
+systemctl start mongod
 VALIDATE $? "Starting Mongodb" | tee -a $LOG_FILE
 
 sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.repo
