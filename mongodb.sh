@@ -33,7 +33,7 @@ VALIDATE() {
     fi
 }
 
-cp mongo.repo /etc/yum.repos.d/mongodb.repo 
+cp mongo.repo /etc/yum.repos.d/mongodb.repo
 VALIDATE $? "Copying Mongodb"
 
 dnf install mongodb-org -y &>>$LOG_FILE
@@ -43,10 +43,10 @@ systemctl enable mongod &>>$LOG_FILE
 VALIDATE $? "Enabling Mongodb"
 
 systemctl start mongod
-VALIDATE $? "Starting Mongodb" 
+VALIDATE $? "Starting Mongodb"
 
 sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
-VALIDATE $? "Modifying IP" 
+VALIDATE $? "Modifying IP"
 
 systemctl restart mongod
 VALIDATE $? "Restarting mongod"
