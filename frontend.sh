@@ -57,7 +57,7 @@ VALIDATE $? "Removing content in index file"
 curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip &>>$LOG_FILE
 VALIDATE $? "Downloading frontend file"
 
-cd /user/share/nginx/html
+cd /usr/share/nginx/html
 
 unzip /tmp/frontend.zip &>>$LOG_FILE
 VALIDATE $? "Unzipping the frontned file"
