@@ -25,3 +25,10 @@ then
 else
     echo -e "$G You are the root user $N" | tee -a $LOG_FILE
 fi
+
+VALIDATE(){
+    if [ $1 == 0 ]
+    then
+        echo -e "Is ......$G Success $N" 
+
+}
