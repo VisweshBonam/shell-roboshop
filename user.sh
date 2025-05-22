@@ -15,6 +15,7 @@ N="\e[0m"
 LOG_FOLDER="/var/log/roboshop-logs"
 SCRIPT_NAME="$(echo $0 | awk -F "." '{print $1F}')" 
 LOG_FILE="$LOG_FOLDER/$SCRIPT_NAME.log"
+SCRIPT_DIR="$PWD"
 
 mkdir -p $LOG_FOLDER
 
@@ -37,4 +38,44 @@ VALIDATE(){
 }
 
 dnf module disable nodejs -y &>>$LOG_FILE
-VALIDATE $? "Disabling nodejs"
+VALIDATE $? "Disabling Nodejs"
+
+dnf module enable nodejs:20 -y &>>$LOG_FILE
+VALIDATE $? "Enabling Nodejs"
+
+dnf install nodejs -y &>>$LOG_FILE
+VALIDATE $? "Installing Nodejs"
+
+mkdir -p /app 
+VALIDATE $? "Creating app directory"
+
+useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOG_FILE
+VALIDATE $? "Creating System User"
+
+curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip &>>$LOG_FILE 
+VALIDATE $? "Downloading User Code"
+
+cd /app
+
+unzip /tmp/user.zip &>>$LOG_FILE
+VALIDATE $? "Unzipping user file"
+
+npm install &>>$LOG_FILE
+VALIDATE $? "Installing packages"
+
+
+cp $PWD/user.service /etc/systemd/system/user.service &>>$LOG_FILE
+VALIDATE $? "copying user service"
+
+systemctl daemon-reload &>>$LOG_FILE
+
+systemctl enable user &>>$LOG_FILE
+VALIDATE $? "Enabling User"
+
+systemctl start user
+VALIDATE $? "Starting User"
+
+END_TIME="$(date +%s)"
+
+TOTAL_TIME="$(($END_TIME - $START_TIME))"
+echo -e "Script execution is completed..Time taken to execute the script is : $Y $TOTAL_TIME $N"
