@@ -18,7 +18,7 @@ LOG_FILE="$LOG_FOLDER/$SCRIPT_NAME.log"
 
 mkdir -p $LOG_FOLDER
 
-if[ $UserId != 0 ]
+if [ $UserId != 0 ]
 then
     echo -e "$R ERROR $N :: Please access with root access" | tee -a $LOG_FILE
     exit 1
