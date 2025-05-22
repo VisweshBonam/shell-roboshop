@@ -29,6 +29,12 @@ fi
 VALIDATE(){
     if [ $1 == 0 ]
     then
-        echo -e "Is ......$G Success $N" 
-
+        echo -e "$2 is ......$G Success $N" | tee -a $LOG_FILE 
+    else
+        echo -e "$2 is ......$R Failed $N" | tee -a $LOG_FILE
+        exit 1
+    fi
 }
+
+dnf module disable nodejs -y
+VALIDATE $? "Disabling nodejs"
