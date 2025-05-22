@@ -21,6 +21,9 @@ echo -e "Script executing started at : $(date)"
 
 mkdir -p $LOG_FOLDER
 
+echo "Please enter password"
+read -s MySQLPASSWORD
+
 if [ $UserId != 0 ]
 then
     echo -e "$R ERROR $N :: Please access with root user" | tee -a $LOG_FILE
@@ -47,3 +50,12 @@ VALIDATE $? "Enabling Mysql"
 
 systemctl start mysqld &>>$LOG_FILE
 VALIDATE $? "Starting Mysql"
+
+mysql_secure_installation --set-root-pass $MySQLPASSWORD
+VALIDATE $? "Setting MySQL root password"
+
+END_TIME=$(date +%s)
+
+TOTAL_TIME=$(($START_TIME - $END_TIME))
+
+echo -e "Script executed completed at : $TOTAL_TIME"
