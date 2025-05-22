@@ -18,4 +18,10 @@ LOG_FILE="$LOG_FOLDER/$SCRIPT_NAME.log"
 
 mkdir -p $LOG_FOLDER
 
-echo "script name : $SCRIPT_NAME"
+if[ $UserId != 0 ]
+then
+    echo -e "$R ERROR $N :: Please access with root access" | tee -a $LOG_FILE
+    exit 1
+else
+    echo -e "$G You are the root user $N" | tee -a $LOG_FILE
+fi
