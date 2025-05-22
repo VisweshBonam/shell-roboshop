@@ -64,7 +64,7 @@ npm install &>>$LOG_FILE
 VALIDATE $? "Installing packages"
 
 
-cp $PWD/user.service /etc/systemd/system/user.service &>>$LOG_FILE
+cp $SCRIPT_DIR/user.service /etc/systemd/system/user.service &>>$LOG_FILE
 VALIDATE $? "copying user service"
 
 systemctl daemon-reload &>>$LOG_FILE
