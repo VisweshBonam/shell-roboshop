@@ -63,6 +63,9 @@ VALIDATE $? "Downloading User Code"
 
 cd /app
 
+rm -rf /app/*
+
+
 unzip /tmp/user.zip &>>$LOG_FILE
 VALIDATE $? "Unzipping user file"
 
