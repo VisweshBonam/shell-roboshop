@@ -1,5 +1,7 @@
 #!/bin/bash
 
+START_TIME="$(date +%s)"
+
 UserId=$(id -u)
 
 #colors
@@ -70,6 +72,12 @@ VALIDATE $? "Copying nginx.conf"
 
 systemctl restart nginx &>>$LOG_FILE
 VALIDATE $? "Restarting nginx"
+
+END_TIME="$(date +%s)"
+
+TOTAL_TIME="$(($END_TIME - $START_TIME))"
+echo -e "Time taken to run this scripts is : $Y $TOTAL_TIME $N"
+
 
 
 
