@@ -11,10 +11,10 @@ for insatnce in $@; do
     INSTANCE_ID=$(aws ec2 run-instances --image-id ami-09c813fb71547fc4f --instance-type t3.micro --security-group-ids sg-07bf1ea3d5397ec68 --tag-specifications "ResourceType=instance,Tags=[{Key=Name, Value=$instance}]" --query "Instances[0].InstanceId" --output text)
     if [ $instance != "frontend" ]; then
         IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Reservations[0].Instances[0].PrivateIpAddress" --output text)
-        #RECORD_NAME="$instance.$Domain_Name"
+        RECORD_NAME="$instance.$Domain_Name"
     else
         IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Reservations[0].Instances[0].PublicIpAddress" --output text)
-        #RECORD_NAME="$Domain_Name"
+        RECORD_NAME="$Domain_Name"
     fi
     echo "$instance IP address: $IP"
 
@@ -26,7 +26,7 @@ for insatnce in $@; do
         ,"Changes": [{
         "Action"              : "UPSERT"
         ,"ResourceRecordSet"  : {
-            "Name"              : "'$instance'.'$Domain_Name'"
+            "Name"              : "'$RECORD_NAME'"
             ,"Type"             : "A"
             ,"TTL"              : 1
             ,"ResourceRecords"  : [{
