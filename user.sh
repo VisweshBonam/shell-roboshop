@@ -49,8 +49,14 @@ VALIDATE $? "Installing Nodejs"
 mkdir -p /app 
 VALIDATE $? "Creating app directory"
 
-useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOG_FILE
-VALIDATE $? "Creating System User"
+id roboshop
+if [ $? != 0 ]
+then
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOG_FILE
+    VALIDATE $? "Creating System User"
+else
+    echo -e "System User already exist"
+fi
 
 curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip &>>$LOG_FILE 
 VALIDATE $? "Downloading User Code"
