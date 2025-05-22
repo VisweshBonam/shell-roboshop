@@ -21,17 +21,15 @@ mkdir -p $LOG_FOLDER
 
 echo -e "Script executing started at : $Y $(date) $N"
 
-if [ $UserId -ne 0 ]
-then
-     echo -e "$R ERROR $N :: Please access with root user" | tee -a $LOG_FILE
-     exit 1
+if [ $UserId -ne 0 ]; then
+    echo -e "$R ERROR $N :: Please access with root user" | tee -a $LOG_FILE
+    exit 1
 else
-     echo -e "$G You are a root user $N" | tee -a $LOG_FILE
+    echo -e "$G You are a root user $N" | tee -a $LOG_FILE
 fi
 
-VALIDATE(){
-    if [ $? -eq 0 ]
-    then
+VALIDATE() {
+    if [ $? -eq 0 ]; then
         echo -e "$2 is .....$G Success $N" | tee -a $LOG_FILE
     else
         echo -e "$2 is ....$R Failed $N" | tee -a $LOG_FILE
@@ -39,14 +37,13 @@ VALIDATE(){
     fi
 }
 
-
 dnf module disable nginx -y &>>$LOG_FILE
 VALIDATE $? "Disabling nginx"
 
 dnf module enable nginx:1.24 -y &>>$LOG_FILE
 VALIDATE $? "Enabling nginx"
 
-dnf install nginx -y &>> $LOG_FILE
+dnf install nginx -y &>>$LOG_FILE
 VALIDATE $? "Installing nginx"
 
 systemctl enable nginx &>>$LOG_FILE
@@ -77,8 +74,3 @@ END_TIME="$(date +%s)"
 
 TOTAL_TIME="$(($END_TIME - $START_TIME))"
 echo -e "Time taken to run this scripts is : $Y $TOTAL_TIME $N"
-
-
-
-
-
