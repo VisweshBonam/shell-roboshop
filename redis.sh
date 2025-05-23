@@ -20,7 +20,7 @@ mkdir -p $LOG_FOLDER
 
 echo -e "Script started executing at $Y $(date) $N"  | tee -a $LOG_FILE
 
-if [ UserId -ne 0 ]
+if [ $UserId -ne 0 ]
 then
     echo -e "$R ERROR $N :: Please access with root user" | tee -a $LOG_FILE
     exit 1
