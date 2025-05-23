@@ -78,6 +78,9 @@ VALIDATE $? "Enabling shipping"
 systemctl start shipping
 VALIDATE $? "Start Shiiping"
 
+dnf install mysql -y  &>>$LOG_FILE
+VALIDATE $? "Install MySQL"
+
 mysql -h mysql.liveyourlife.site -u root -p$MYSQL_PASSWORD -e 'use cities' &>>$LOG_FILE
 if [ $? != 0 ]; then
     mysql -h mysql.liveyourlife.site -uroot -p$MYSQL_PASSWORD </app/db/schema.sql &>>$LOG_FILE
