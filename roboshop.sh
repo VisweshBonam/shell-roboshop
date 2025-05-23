@@ -1,9 +1,9 @@
 #!/bin/bash
 
 AMI_ID="ami-09c813fb71547fc4f"
-Security_GroupId="sg-07bf1ea3d5397ec68"
+Security_GroupId="sg-07b3efc937a5811da"
 INSTANCES=("mongodb" "redis" "mysql" "rabbitmq" "catalogue" "user" "cart" "shipping" "payment" "dispatch" "frontend")
-Zone_ID="Z01891953PLU1K6VRGBFE"
+Zone_ID="Z060825238ARF2ALFTJ5X"
 Domain_Name="liveyourlife.site"
 
 #for instance in ${INSTANCES[@]}
