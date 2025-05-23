@@ -22,13 +22,17 @@ echo -e "Script executing started at : $(date)"
 
 
 
-if [ UserId != 0 ]
+if [ $UserId != 0 ]
 then
     echo -e "$R ERROR $N :: Please access with root access"
     exit 1
 else
     echo -e "$G You are root access $N"
 fi
+
+echo -e "Please enter your SQL Password"
+read -s MYSQL_PASSWORD
+
 
 VALIDATE(){
     if [ $1 == 0 ]
@@ -70,11 +74,35 @@ mv target/shipping-1.0.jar shipping.jar  &>>$LOG_FILE
 VALIDATE $? "Moving and Renaming Jar file"
 
 
+cp $SCRIPT_DIR/shipping.service /etc/systemd/system/shipping.service &>>$LOG_FILE
+VALIDATE $? "Copying service"
 
+systemctl daemon-reload &>>$LOG_FILE
 
-cp $SCRIPT_DIR/shipping.service /etc/systemd/system/shipping.service
-VALIDATE $? "Copying service
+systemctl enable shipping &>>$LOG_FILE
+VALIDATE $? "Enabling shipping"
 
+systemctl start shipping 
+VALIDATE $? "Start Shiiping"
+
+mysql -h mysql.liveyourlife.site -uroot -p$MYSQL_PASSWORD -e 'use cities' &>>$LOG_FILE
+if [ $? != 0 ]
+then
+    mysql -h mysql.liveyourlife.site -uroot -p$MYSQL_ROOT_PASSWORD < /app/db/schema.sql &>>$LOG_FILE
+    mysql -h mysql.liveyourlife.site -uroot -p$MYSQL_ROOT_PASSWORD < /app/db/app-user.sql  &>>$LOG_FILE
+    mysql -h mysql.liveyourlife.site -uroot -p$MYSQL_ROOT_PASSWORD < /app/db/master-data.sql &>>$LOG_FILE
+    VALIDATE $? "Loading data into MySQL"
+else
+    echo -e "Data is already loaded into MYSQL..$Y SKIPPING...$N"
+fi
+
+systemctl restart shipping  &>>$LOG_FILE
+VALIDATE $? "Restarting Shipping"
+
+END_TIME="$(date +%s)"
+TOTAL_TIME="$(($END_TIME - $START_TIME))"
+
+echo -e "The time taken for the script execution is : $TOTAL_TIME "
 
 
 
