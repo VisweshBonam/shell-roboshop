@@ -20,10 +20,7 @@ mkdir -p $LOG_FOLDER
 
 echo -e "Script executing started at : $(date)"
 
-
-
-if [ $UserId != 0 ]
-then
+if [ $UserId != 0 ]; then
     echo -e "$R ERROR $N :: Please access with root access"
     exit 1
 else
@@ -33,10 +30,8 @@ fi
 echo -e "Please enter your SQL Password"
 read -s MYSQL_PASSWORD
 
-
-VALIDATE(){
-    if [ $1 == 0 ]
-    then
+VALIDATE() {
+    if [ $1 == 0 ]; then
         echo -e "$2 is .....$G Success $N"
     else
         echo -e "$2 is .....$R Failed $N"
@@ -48,8 +43,7 @@ dnf install maven -y &>>$LOG_FILE
 VALIDATE $? "Installing maven and java"
 
 id roboshop
-if [ $? != 0 ]
-then
+if [ $? != 0 ]; then
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOG_FILE
     VALIDATE $? "Creating Roboshop User"
 else
@@ -70,9 +64,8 @@ VALIDATE $? "unzipping shipping"
 mvn clean package &>>$LOG_FILE
 VALIDATE $? "Installing Dependencies"
 
-mv target/shipping-1.0.jar shipping.jar  &>>$LOG_FILE
+mv target/shipping-1.0.jar shipping.jar &>>$LOG_FILE
 VALIDATE $? "Moving and Renaming Jar file"
-
 
 cp $SCRIPT_DIR/shipping.service /etc/systemd/system/shipping.service &>>$LOG_FILE
 VALIDATE $? "Copying service"
@@ -82,29 +75,24 @@ systemctl daemon-reload &>>$LOG_FILE
 systemctl enable shipping &>>$LOG_FILE
 VALIDATE $? "Enabling shipping"
 
-systemctl start shipping 
+systemctl start shipping
 VALIDATE $? "Start Shiiping"
 
-
 mysql -h mysql.liveyourlife.site -u root -p$MYSQL_PASSWORD -e 'use cities' &>>$LOG_FILE
-if [ $? != 0 ]
-then
-    mysql -h mysql.liveyourlife.site -uroot -p$MYSQL_PASSWORD < /app/db/schema.sql &>>$LOG_FILE
-    mysql -h mysql.liveyourlife.site -uroot -p$MYSQL_PASSWORD < /app/db/app-user.sql  &>>$LOG_FILE
-    mysql -h mysql.liveyourlife.site -uroot -p$MYSQL_PASSWORD < /app/db/master-data.sql &>>$LOG_FILE
+if [ $? != 0 ]; then
+    mysql -h mysql.liveyourlife.site -uroot -p$MYSQL_PASSWORD </app/db/schema.sql &>>$LOG_FILE
+    mysql -h mysql.liveyourlife.site -uroot -p$MYSQL_PASSWORD </app/db/app-user.sql &>>$LOG_FILE
+    mysql -h mysql.liveyourlife.site -uroot -p$MYSQL_PASSWORD </app/db/master-data.sql &>>$LOG_FILE
+
     VALIDATE $? "Loading data into MySQL"
 else
     echo -e "Data is already loaded into MYSQL..$Y SKIPPING...$N"
 fi
 
-systemctl restart shipping  &>>$LOG_FILE
+systemctl restart shipping &>>$LOG_FILE
 VALIDATE $? "Restarting Shipping"
 
 END_TIME="$(date +%s)"
 TOTAL_TIME="$(($END_TIME - $START_TIME))"
 
 echo -e "The time taken for the script execution is : $TOTAL_TIME "
-
-
-
-
